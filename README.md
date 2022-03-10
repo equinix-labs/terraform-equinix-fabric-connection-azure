@@ -1,13 +1,26 @@
-## terraform-equinix-template
+## Equinix Fabric L2 Connection To Microsoft Azure ExpressRoute Terraform module
 
-<!-- TEMPLATE: Review all "TEMPLATE" comments and remove them when applied. -->
-<!-- TEMPLATE: replace "template" with the name of your project. The prefix "terraform-equinix-" informs the Terraform registry that this project is a Terraform module associated with the Equinix provider, Oreserve this prefix.  "terraform-metal-" may also be used for Equinix Metal modules, but "terraform-equinix-" will work too. -->
 [![Experimental](https://img.shields.io/badge/Stability-Experimental-red.svg)](https://github.com/equinix-labs/standards#about-uniform-standards)
 [![terraform](https://github.com/equinix-labs/terraform-equinix-template/actions/workflows/integration.yaml/badge.svg)](https://github.com/equinix-labs/terraform-equinix-template/actions/workflows/integration.yaml)
 
-`terraform-equinix-template` is a minimal Terraform module that utilizes [Terraform providers for Equinix](https://registry.terraform.io/namespaces/equinix) to provision digital infrastructure and demonstrate higher level integrations.
+`terraform-equinix-fabric-connection-azure` is a Terraform module that utilizes [Terraform provider for Equinix](https://registry.terraform.io/providers/equinix/equinix/latest) and [Terraform provider for Azure](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs) to set up an Equinix Fabric L2 connection to Microsoft Azure ExpressRoute.
 
-<!-- TEMPLATE: Insert an image here of the infrastructure diagram. You can generate a starting image using instructions found at https://www.terraform.io/docs/cli/commands/graph.html#generating-images -->
+As part of Platform Equinix, your infrastructure can connect with other parties, such as public cloud providers, network service providers, or your own colocation cages in Equinix by defining an [Equinix Fabric - software-defined interconnection](https://docs.equinix.com/en-us/Content/Interconnection/Fabric/Fabric-landing-main.htm).
+
+This module creates a resource group or uses an existing one, an ExpressRoute circuit in Azure, and the l2 connection in Equinix Fabric using the ExpressRoute service key.
+
+```html
+     Origin                                              Destination
+    (A-side)                                              (Z-side)              ┌────────────────────────┐
+                                                                                │  (Microsoft Peering)   │
+┌────────────────┐                                 ┌────────────────────┐       │  Office 365 / Dynamics │
+│ Equinix Fabric │         Equinix Fabric          │                    │──────►│  365 / Public services │
+│ Port / Network ├─────    l2 connection   ───────►│        Azure       │       └────────────────────────┘
+│ Edge Device /  │      (50 Mbps - 10 Gbps)        │    ExpressRoute    │       ┌────────────────────────┐
+│ Service Token  │                                 │                    │──────►│   (Private Peering)    │
+└────────────────┘                                 └────────────────────┘       │    Virtual Networks    │
+                                                                                └────────────────────────┘
+```
 
 ### Usage
 
@@ -23,51 +36,56 @@ To use this module in a new project, create a file such as:
 
 ```hcl
 # main.tf
-terraform {
-  required_providers {
-    equinix = {
-      source = "equinix/equinix"
-    }
-    metal = {
-      source = "equinix/metal"
-    }
+provider "equinix" {}
+
+provider "azurerm" {
+  features {}
 }
 
-module "example" {
-  source = "github.com/equinix-labs/template"
-  # TEMPLATE: replace "template" with the name of the repo after the terraform-equinix- or terraform-metal- prefix.
+variable "port_name" {}
 
-  # Published modules can be sourced as:
-  # source = "equinix-labs/template/equinix"
-  # See https://www.terraform.io/docs/registry/modules/publish.html for details.
+module "equinix-fabric-connection-azure" {
+  source  = "equinix-labs/fabric-connection-azure/equinix"
 
-  # version = "0.1.0"
+  # required variables
+  fabric_notification_users = ["example@equinix.com"]
 
-  # TEMPLATE: insert required variables here
+  # optional variables
+  fabric_port_name                 = var.port_name
+  fabric_vlan_stag                 = 1010
+  fabric_destination_metro_code    = "FR"
+  fabric_speed                     = 100
+  fabric_secondary_vlan_stag       = 1020
+  az_region                        = "Germany West Central"
+  az_expressroute_peering_location = "Frankfurt2"
 }
+
+output "connection_details" {
+  value = module.equinix-fabric-connection-azure
+}
+
 ```
 
 Run `terraform init -upgrade` and `terraform apply`.
 
-<!-- TEMPLATE: Expand this section with any additional information or requirements. -->
+#### Resources
+
+| Name | Type |
+| :-----: | :------: |
+| [random_string.this](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
+| [equinix-fabric-connection](https://registry.terraform.io/modules/equinix-labs/fabric-connection/equinix/latest?tab=inputs) | module |
+| [azurerm_express_route_circuit.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/express_route_circuit) | resource |
+| [azurerm_resource_group.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
+| [azurerm_resource_group.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group) | data source |
 
 #### Variables
 
-|     Variable Name      |  Type   |        Default Value        | Description                                             |
-| :--------------------: | :-----: | :-------------------------: | :------------------------------------------------------ |
-|                        |         |                             |                                                         |
-
-<!-- TEMPLATE: If published, remove the table and use the following: See <https://registry.terraform.io/modules/equinix-labs/template/equinix/latest?tab=inputs> for a description of all variables. -->
+See <https://registry.terraform.io/modules/equinix-labs/fabric-connection-azure/equinix/latest?tab=inputs> for a description of all variables.
 
 #### Outputs
 
-|     Variable Name      |  Type   | Description                                             |
-| :--------------------: | :-----: | :------------------------------------------------------ |
-|                        |         |                                                         |
-
-<!-- TEMPLATE: If published, remove the table and use the following: See <https://registry.terraform.io/modules/equinix-labs/template/equinix/latest?tab=outputs> for a description of all outputs. -->
+See <https://registry.terraform.io/modules/equinix-labs/fabric-connection-azure/equinix/latest?tab=outputs> for a description of all outputs.
 
 ### Examples
 
 - [examples/simple](examples/simple/)
-
