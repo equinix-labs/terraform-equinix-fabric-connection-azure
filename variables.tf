@@ -33,8 +33,8 @@ variable "fabric_destination_metro_code" {
 variable "fabric_destination_metro_name" {
   type        = string
   description = <<EOF
-  Only required in the absence of 'fabric_destination_metro_code'. Metro name where the connection will be created, i.e.
-  'Frankfurt', 'Silicon Valley', 'Ashburn'. One of 'metro_code', 'metro_name' must be
+  Only required in the absence of 'fabric_destination_metro_code'. Metro name where the connection will be created,
+  i.e. 'Frankfurt', 'Silicon Valley', 'Ashburn'. One of 'metro_code', 'metro_name' must be
   provided.
   EOF
   default     = ""
@@ -49,8 +49,8 @@ variable "network_edge_device_id" {
 variable "network_edge_device_interface_id" {
   type        = number
   description = <<EOF
-  Applicable with 'network_edge_device_id', identifier of network interface on a given device, used for a connection. If not
-  specified then first available interface will be selected.
+  Applicable with 'network_edge_device_id', identifier of network interface on a given device, used for a connection.
+  If not specified then first available interface will be selected.
   EOF
   default     = 0
 }
@@ -123,8 +123,8 @@ variable "fabric_secondary_connection_name" {
 variable "fabric_secondary_port_name" {
   type        = string
   description = <<EOF
-  Name of the buyer's port from which the secondary connection would originate. If not specified, and 'fabric_port_name',
-  is specified, both primary and secondary connection will use 'fabric_port_name'.
+  Name of the buyer's port from which the secondary connection would originate. If not specified, and
+  'fabric_port_name', is specified, both primary and secondary connection will use 'fabric_port_name'.
   EOF
   default     = ""
 }
@@ -134,6 +134,34 @@ variable "fabric_secondary_vlan_stag" {
   description = <<EOF
   S-Tag/Outer-Tag of the secondary connection. A numeric character ranging from 2 - 4094. Required if
   'fabric_secondary_port_name' is set. 
+  EOF
+  default     = 0
+}
+
+
+variable "fabric_secondary_service_token_id" {
+  type        = string
+  description = <<EOF
+  Unique Equinix Fabric key shared with you by a provider that grants you authorization to use their interconnection
+  asset from which the secondary connection would originate.
+  EOF
+  default     = ""
+}
+
+variable "network_edge_secondary_device_id" {
+  type        = string
+  description = <<EOF
+  "Unique identifier of the secondary Network Edge virtual device from which the connection would
+  originate."
+  EOF
+  default     = ""
+}
+
+variable "network_edge_secondary_device_interface_id" {
+  type        = number
+  description = <<EOF
+  Applicable with 'network_edge_device_id' or 'network_edge_secondary_device_id', identifier of network interface on a
+  given device, used for a connection. If not specified then first available interface will be selected.
   EOF
   default     = 0
 }

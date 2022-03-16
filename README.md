@@ -7,7 +7,7 @@
 
 As part of Platform Equinix, your infrastructure can connect with other parties, such as public cloud providers, network service providers, or your own colocation cages in Equinix by defining an [Equinix Fabric - software-defined interconnection](https://docs.equinix.com/en-us/Content/Interconnection/Fabric/Fabric-landing-main.htm).
 
-This module creates a resource group or uses an existing one, an ExpressRoute circuit in Azure, and the l2 connection in Equinix Fabric using the ExpressRoute service key.
+This module creates a resource group or uses an existing one, an ExpressRoute circuit in Azure, and the redundant l2 connection in Equinix Fabric using the ExpressRoute service key.
 
 ```html
      Origin                                              Destination
@@ -15,9 +15,9 @@ This module creates a resource group or uses an existing one, an ExpressRoute ci
                                                                                 │  (Microsoft Peering)   │
 ┌────────────────┐                                 ┌────────────────────┐       │  Office 365 / Dynamics │
 │ Equinix Fabric │         Equinix Fabric          │                    │──────►│  365 / Public services │
-│ Port / Network ├─────    l2 connection   ───────►│        Azure       │       └────────────────────────┘
-│ Edge Device /  │      (50 Mbps - 10 Gbps)        │    ExpressRoute    │       ┌────────────────────────┐
-│ Service Token  │                                 │                    │──────►│   (Private Peering)    │
+│ Port / Network ├─────       Redundant      ─────►│        Azure       │       └────────────────────────┘
+│ Edge Device /  │    l2 connection connection     │    ExpressRoute    │       ┌────────────────────────┐
+│ Service Token  ├─────  (50 Mbps - 10 Gbps) ─────►│                    │──────►│   (Private Peering)    │
 └────────────────┘                                 └────────────────────┘       │    Virtual Networks    │
                                                                                 └────────────────────────┘
 ```
@@ -42,7 +42,8 @@ provider "azurerm" {
   features {}
 }
 
-variable "port_name" {}
+variable "port_primary_name" {}
+variable "port_secondary_name" {}
 
 module "equinix-fabric-connection-azure" {
   source  = "equinix-labs/fabric-connection-azure/equinix"
@@ -51,19 +52,17 @@ module "equinix-fabric-connection-azure" {
   fabric_notification_users = ["example@equinix.com"]
 
   # optional variables
-  fabric_port_name                 = var.port_name
+  fabric_port_name                 = var.port_primary_name
   fabric_vlan_stag                 = 1010
-  fabric_destination_metro_code    = "FR"
-  fabric_speed                     = 100
+  fabric_secondary_port_name       = var.port_secondary_name
   fabric_secondary_vlan_stag       = 1020
+
+  fabric_destination_metro_code = "FR"
+  fabric_speed                  = 400
+
   az_region                        = "Germany West Central"
   az_expressroute_peering_location = "Frankfurt2"
 }
-
-output "connection_details" {
-  value = module.equinix-fabric-connection-azure
-}
-
 ```
 
 Run `terraform init -upgrade` and `terraform apply`.

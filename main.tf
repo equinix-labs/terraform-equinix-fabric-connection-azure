@@ -64,8 +64,11 @@ module "equinix-fabric-connection" {
   purcharse_order_number    = var.fabric_purcharse_order_number
   zside_vlan_ctag           = var.fabric_zside_vlan_ctag
 
-  redundancy_type     = "Redundant"
-  secondary_name      = var.fabric_secondary_connection_name
-  secondary_port_name = var.fabric_secondary_port_name
-  secondary_vlan_stag = var.fabric_secondary_vlan_stag
+  redundancy_type                     = "REDUNDANT"
+  secondary_name                      = var.fabric_secondary_connection_name
+  secondary_port_name                 = var.fabric_secondary_port_name
+  secondary_vlan_stag                 = var.fabric_secondary_vlan_stag
+  secondary_service_token_id          = var.fabric_secondary_service_token_id
+  secondary_network_edge_id           = var.network_edge_secondary_device_id
+  secondary_network_edge_interface_id = var.network_edge_secondary_device_interface_id
 }
