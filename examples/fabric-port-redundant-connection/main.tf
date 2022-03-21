@@ -7,8 +7,7 @@ provider "azurerm" {
 variable "port_name" {}
 
 module "equinix-fabric-connection-azure" {
-  # source = "github.com/equinix-labs/terraform-equinix-fabric-connection-azure"
-  source = "../../"
+  source = "github.com/equinix-labs/terraform-equinix-fabric-connection-azure"
 
   # required variables
   fabric_notification_users = ["example@equinix.com"]

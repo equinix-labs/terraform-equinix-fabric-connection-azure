@@ -9,8 +9,7 @@ variable "fabric_secondary_service_token_id" {}
 variable "existing_resource_group_name" {}
 
 module "equinix-fabric-connection-azure" {
-  # source = "github.com/equinix-labs/terraform-equinix-fabric-connection-azure"
-  source = "../../"
+  source = "github.com/equinix-labs/terraform-equinix-fabric-connection-azure"
 
   # required variables
   fabric_notification_users = ["example@equinix.com"]
