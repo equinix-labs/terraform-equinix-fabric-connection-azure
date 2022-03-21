@@ -85,26 +85,13 @@ variable "fabric_service_token_id" {
 variable "fabric_speed" {
   type        = number
   description = <<EOF
-  Speed/Bandwidth to be allocated to the connection - (MB or GB). If not specified, it will be used the minimum
-  bandwidth available for the AWS service profile.
+  Speed/Bandwidth in Mbps to be allocated to the connection. If not specified, it will be used the minimum
+  bandwidth available for the Azure ExpressRoute service profile.
   EOF
   default = 50
   validation {
-    condition = contains([50, 100, 200, 500, 1, 2, 5, 10], var.fabric_speed)
-    error_message = "Valid values are (50, 100, 200, 500, 1, 2, 5, 10)."
-  } 
-}
-
-variable "fabric_speed_unit" {
-  type        = string
-  description = "Unit of the speed/bandwidth to be allocated to the connection."
-  default     = "MB"
-
-  validation {
-    condition = (
-      var.fabric_speed_unit == "" ? true : contains(["MB", "GB"], var.fabric_speed_unit)
-    )
-    error_message = "Valid values are (MB, GB)."
+    condition = contains([50, 100, 200, 500, 1000, 2000, 5000, 10000], var.fabric_speed)
+    error_message = "Valid values are (50, 100, 200, 500, 1000, 2000, 5000, 10000)."
   } 
 }
 
@@ -221,16 +208,6 @@ variable az_expressroute_sku {
   }
 }
 
-variable az_expressroute_port_id {
-  type        = string
-  description = <<EOF
-  The ID of the Express Route Port this Express Route Circuit is based on. The express_route_port_id and the
-  bandwidth_in_gbps should be set together and they conflict with service_provider_name, peering_location and
-  bandwidth_in_mbps.
-  EOF
-  default     = ""
-}
-
 variable "az_tags" {
   type        = map(string)
   description = "Tags for Azure resources."
@@ -245,7 +222,7 @@ variable "az_named_tag" {
   The type of peering to set up in case when connecting to Azure Express Route. One of 'PRIVATE', 'MICROSOFT',
   'MANUAL'.
   EOF
-  default     = "Private"
+  default     = "PRIVATE"
 }
 
 variable "fabric_zside_vlan_ctag" {
@@ -255,4 +232,19 @@ variable "fabric_zside_vlan_ctag" {
   ranging from 2 - 4094.
   EOF
   default     = 0
+}
+
+variable "redundancy_type" {
+  type        = string
+  description = <<EOF
+  Whether to create a SINGLE connection or REDUNDANT. Azure recommends creating redundant Connections for ExpressRoute.
+  Despite this recommendation, we are retaining the option for users to create a single Connection. If you choose to
+  create a single Connection to ExpressRoute, there will be no Service Level Agreement (SLA).
+  EOF
+  default     = "REDUNDANT"
+
+  validation {
+    condition = (contains(["SINGLE", "REDUNDANT"], var.redundancy_type))
+    error_message = "Valid values for 'redundancy_type' are (SINGLE, REDUNDANT)."
+  } 
 }

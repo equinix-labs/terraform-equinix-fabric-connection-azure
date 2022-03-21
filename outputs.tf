@@ -60,7 +60,7 @@ output "azure_resource_group_name" {
 
 output "azure_resource_group_id" {
   description = "Resource group ID."
-  value = local.az_resource_group_id
+  value = var.az_create_resource_group ? azurerm_resource_group.this[0].id : data.azurerm_resource_group.this[0].id
 }
 
 output "azure_express_route_circuit_id" {

@@ -7,7 +7,7 @@
 
 As part of Platform Equinix, your infrastructure can connect with other parties, such as public cloud providers, network service providers, or your own colocation cages in Equinix by defining an [Equinix Fabric - software-defined interconnection](https://docs.equinix.com/en-us/Content/Interconnection/Fabric/Fabric-landing-main.htm).
 
-This module creates a resource group or uses an existing one, an ExpressRoute circuit in Azure, and the redundant l2 connection in Equinix Fabric using the ExpressRoute service key.
+This module creates a resource group or uses an existing one, an ExpressRoute circuit in Azure, and the redundant (optionally non-redundant) l2 connection in Equinix Fabric using the ExpressRoute service key.
 
 ```html
      Origin                                              Destination
@@ -15,7 +15,7 @@ This module creates a resource group or uses an existing one, an ExpressRoute ci
                                                                                 │  (Microsoft Peering)   │
 ┌────────────────┐                                 ┌────────────────────┐       │  Office 365 / Dynamics │
 │ Equinix Fabric │         Equinix Fabric          │                    │──────►│  365 / Public services │
-│ Port / Network ├─────       Redundant      ─────►│        Azure       │       └────────────────────────┘
+│ Port / Network ├─────   Single/Redundant   ─────►│        Azure       │       └────────────────────────┘
 │ Edge Device /  │    l2 connection connection     │    ExpressRoute    │       ┌────────────────────────┐
 │ Service Token  ├─────  (50 Mbps - 10 Gbps) ─────►│                    │──────►│   (Private Peering)    │
 └────────────────┘                                 └────────────────────┘       │    Virtual Networks    │
@@ -87,4 +87,5 @@ See <https://registry.terraform.io/modules/equinix-labs/fabric-connection-azure/
 
 ### Examples
 
-- [examples/simple](examples/simple/)
+- [examples/fabric-port-redundant-connection](examples/fabric-port-redundant-connection/)
+- [examples/service-token-redundant-connection](examples/service-token-redundant-connection/)

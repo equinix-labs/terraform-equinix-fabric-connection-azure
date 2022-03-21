@@ -1,6 +1,5 @@
 locals {
   az_resource_group_name = coalesce(var.az_resource_group_name, lower(format("rg-%s", random_string.this.result)))
-  az_resource_group_id   = var.az_create_resource_group ? azurerm_resource_group.this[0].id : data.azurerm_resource_group.this[0].id
 }
 
 data "azurerm_resource_group" "this" {
@@ -8,7 +7,6 @@ data "azurerm_resource_group" "this" {
 
   name = local.az_resource_group_name
 }
-
 resource "azurerm_resource_group" "this" {
   count = var.az_create_resource_group? 1 : 0
 
@@ -19,13 +17,11 @@ resource "azurerm_resource_group" "this" {
 
 resource "azurerm_express_route_circuit" "this" {
   name                  = coalesce(var.az_express_route_circuit_name, lower(format("xr-circuit-%s", random_string.this.result)))
-  resource_group_name   = local.az_resource_group_name
+  resource_group_name   = var.az_create_resource_group ? azurerm_resource_group.this[0].name : data.azurerm_resource_group.this[0].name
   location              = var.az_create_resource_group ? azurerm_resource_group.this[0].location : data.azurerm_resource_group.this[0].location
   service_provider_name = "Equinix"
   peering_location      = var.az_expressroute_peering_location
-  bandwidth_in_mbps     = var.fabric_speed_unit == "MB" ? var.fabric_speed : null
-  bandwidth_in_gbps     = var.fabric_speed_unit == "GB" ? var.fabric_speed : null
-  express_route_port_id = var.fabric_speed_unit == "GB" ? var.az_expressroute_port_id : null
+  bandwidth_in_mbps     = var.fabric_speed
   
   sku {
     tier   = var.az_expressroute_sku.tier
@@ -60,15 +56,15 @@ module "equinix-fabric-connection" {
   vlan_stag                 = var.fabric_vlan_stag
   service_token_id          = var.fabric_service_token_id
   speed                     = var.fabric_speed
-  speed_unit                = var.fabric_speed_unit
+  speed_unit                = "MB"
   purcharse_order_number    = var.fabric_purcharse_order_number
   zside_vlan_ctag           = var.fabric_zside_vlan_ctag
 
-  redundancy_type                     = "REDUNDANT"
+  redundancy_type                     = var.redundancy_type
   secondary_name                      = var.fabric_secondary_connection_name
   secondary_port_name                 = var.fabric_secondary_port_name
   secondary_vlan_stag                 = var.fabric_secondary_vlan_stag
   secondary_service_token_id          = var.fabric_secondary_service_token_id
-  secondary_network_edge_id           = var.network_edge_secondary_device_id
-  secondary_network_edge_interface_id = var.network_edge_secondary_device_interface_id
+  network_edge_secondary_id           = var.network_edge_secondary_device_id
+  network_edge_secondary_interface_id = var.network_edge_secondary_device_interface_id
 }
