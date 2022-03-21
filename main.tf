@@ -37,8 +37,7 @@ resource "random_string" "this" {
 }
 
 module "equinix-fabric-connection" {
-  # source = "github.com/equinix-labs/terraform-equinix-fabric-connection"
-  source = "../terraform-equinix-fabric-connection"
+  source = "github.com/equinix-labs/terraform-equinix-fabric-connection"
 
   # required variables
   notification_users = var.fabric_notification_users
