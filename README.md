@@ -89,5 +89,6 @@ See <https://registry.terraform.io/modules/equinix-labs/fabric-connection-azure/
 
 ### Examples
 
-- [examples/fabric-port-redundant-connection](examples/fabric-port-redundant-connection/)
-- [examples/service-token-redundant-connection](examples/service-token-redundant-connection/)
+- [Fabric Port redundant connection](https://registry.terraform.io/modules/equinix-labs/fabric-connection-azure/equinix/latest/examples/fabric-port-redundant-connection/)
+- [Network Edge device redundant connection](https://registry.terraform.io/modules/equinix-labs/fabric-connection-azure/equinix/latest/examples/network-edge-device-redundant-connection/)
+- [Fabric a-side Service Token redundant connection](https://registry.terraform.io/modules/equinix-labs/fabric-connection-azure/equinix/latest/examples/service-token-redundant-connection)

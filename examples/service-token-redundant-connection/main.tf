@@ -16,6 +16,7 @@ module "equinix-fabric-connection-azure" {
 
   fabric_speed = 100
 
+  az_region                = "West US" // corresponds to Silicon Valley
   az_create_resource_group = false
   az_resource_group_name   = var.existing_resource_group_name
 }
