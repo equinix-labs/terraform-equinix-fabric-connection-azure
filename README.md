@@ -7,19 +7,21 @@
 
 As part of Platform Equinix, your infrastructure can connect with other parties, such as public cloud providers, network service providers, or your own colocation cages in Equinix by defining an [Equinix Fabric - software-defined interconnection](https://docs.equinix.com/en-us/Content/Interconnection/Fabric/Fabric-landing-main.htm).
 
-This module creates a resource group or uses an existing one, an ExpressRoute circuit in Azure, and the redundant (optionally non-redundant) l2 connection in Equinix Fabric using the ExpressRoute service key.
+This module creates a resource group or uses an existing one, an ExpressRoute circuit in Azure, and the redundant (optionally non-redundant) l2 connection in Equinix Fabric using the ExpressRoute service key. ExpressRoute circuit peering (Private or Microsoft) and Network Edge BGP session can be optionally configured.
 
 ```html
      Origin                                              Destination
     (A-side)                                              (Z-side)              ┌────────────────────────┐
                                                                                 │  (Microsoft Peering)   │
-┌────────────────┐                                 ┌────────────────────┐       │  Office 365 / Dynamics │
-│ Equinix Fabric │         Equinix Fabric          │                    │──────►│  365 / Public services │
-│ Port / Network ├─────   Single/Redundant   ─────►│        Azure       │       └────────────────────────┘
-│ Edge Device /  │    l2 connection connection     │    ExpressRoute    │       ┌────────────────────────┐
-│ Service Token  ├─────  (50 Mbps - 10 Gbps) ─────►│                    │──────►│   (Private Peering)    │
-└────────────────┘                                 └────────────────────┘       │    Virtual Networks    │
-                                                                                └────────────────────────┘
+┌────────────────┐                                 ┌────────────────────┐       │  Office 365 / Dynamics │──┐
+│ Equinix Fabric │         Equinix Fabric          │                    │──────►│  365 / Public services │  │
+│ Port / Network ├─────   Single/Redundant   ─────►│        Azure       │       └────────────────────────┘  │
+│ Edge Device /  │    l2 connection connection     │    ExpressRoute    │       ┌────────────────────────┐  │
+│ Service Token  ├─────  (50 Mbps - 10 Gbps) ─────►│                    │──────►│   (Private Peering)    │  │
+└────────────────┘                                 └────────────────────┘       │    Virtual Networks    │──│
+        │                                                                       └────────────────────────┘  │
+        └ - - - - - - - - - - Network Edge Device - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ┘
+                                   BGP peering
 ```
 
 ### Usage
@@ -52,16 +54,13 @@ module "equinix-fabric-connection-azure" {
   fabric_notification_users = ["example@equinix.com"]
 
   # optional variables
-  fabric_port_name                 = var.port_primary_name
-  fabric_vlan_stag                 = 1010
-  fabric_secondary_port_name       = var.port_secondary_name
-  fabric_secondary_vlan_stag       = 1020
+  fabric_speed               = 400
+  fabric_port_name           = var.port_primary_name
+  fabric_vlan_stag           = 1010
+  fabric_secondary_port_name = var.port_secondary_name
+  fabric_secondary_vlan_stag = 1020
 
-  fabric_destination_metro_code = "FR"
-  fabric_speed                  = 400
-
-  az_region                        = "Germany West Central"
-  az_expressroute_peering_location = "Frankfurt2"
+  az_region = "Japan East"
 }
 ```
 
@@ -76,6 +75,9 @@ Run `terraform init -upgrade` and `terraform apply`.
 | [azurerm_express_route_circuit.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/express_route_circuit) | resource |
 | [azurerm_resource_group.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group) | resource |
 | [azurerm_resource_group.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group) | data source |
+| [azurerm_express_route_circuit_peering.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/express_route_circuit_peering) | resource |
+| [equinix_network_bgp.primary](https://registry.terraform.io/providers/equinix/equinix/latest/docs/resources/equinix_network_bgp) | resource |
+| [equinix_network_bgp.secondary](https://registry.terraform.io/providers/equinix/equinix/latest/docs/resources/equinix_network_bgp) | resource |
 
 #### Variables
 

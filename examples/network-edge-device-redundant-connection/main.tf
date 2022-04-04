@@ -20,8 +20,8 @@ module "equinix-fabric-connection-azure" {
   az_resource_group_name = "rg-exproute" // will create a new resource group
   az_region              = "West US 3" // corresponds to Los Angeles
 
-  az_exproute_peering_customer_asn      = 65432
-  az_exproute_peering_primary_address   = "169.0.0.0/30"
-  az_exproute_peering_secondary_address = "169.0.0.4/30"
-  az_exproute_peering_shared_key        = "BGPSecretKey!"
+  az_exproute_peering_customer_asn      = 65432 // overrides default value
+  az_exproute_peering_primary_address   = "169.0.0.0/30" // overrides default value
+  az_exproute_peering_secondary_address = "169.0.0.4/30" // overrides default value
+  az_exproute_peering_shared_key        = "BGPSecretKey!" // optionally set a shared key, special characters are not supported
 }
