@@ -63,12 +63,12 @@ output "azure_resource_group_id" {
   value = var.az_create_resource_group ? azurerm_resource_group.this[0].id : data.azurerm_resource_group.this[0].id
 }
 
-output "azure_express_route_circuit_id" {
+output "azure_expressroute_circuit_id" {
   description = "ExpressRoute circuit ID."
   value = azurerm_express_route_circuit.this.id
 }
 
-output "azure_express_route_circuit_state" {
+output "azure_expressroute_circuit_state" {
   description = <<EOF
   ExpressRoute circuit provisioning state from Equinix. Possible values are 'NotProvisioned',
   'Provisioning', 'Provisioned', and 'Deprovisioning'.

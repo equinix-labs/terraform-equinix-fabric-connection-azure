@@ -1,0 +1,37 @@
+location,cli_location,peering_location,metro_code
+West US,westus,Silicon Valley,SV
+West US 2,westus2,Seattle,SE
+West US 3,westus3,Los Angeles2,LA
+Central US,centralus,Dallas,DA
+West Central US,westcentralus,Denver,DE
+South Central US,southcentralus,Dallas,DA
+North Central US,northcentralus,Chicago,CH
+East US,eastus,Washington DC,DC
+East US 2,eastus2,Washington DC,DC
+Canada Central,canadacentral,Toronto,TR
+Canada East,canadaeast,Quebec City,MT
+South America,,Bogota,BG
+Brazil South,brazilsouth,Sao Paulo,SP
+UK South,uksouth,London,LD
+UK West,ukwest,London,LD
+North Europe,northeurope,Dublin,DB
+West Europe,westeurope,Amsterdam,AM
+France Central,francecentral,Paris,PA
+Germany West Central,germanywestcentral,Frankfurt,FR
+Switzerland North,switzerlandnorth,Zurich,ZH
+Norway East,norwayeast,Stockholm,SK
+South Africa North,southafricanorth,Paris,PA
+West India,westindia,Singapore,SG
+Central India,centralindia,Singapore,SG
+South India,southindia,Singapore,SG
+Southeast Asia,southeastasia,Singapore,SG
+East Asia,eastasia,Hong Kong,HK
+Korea Central,koreacentral,Seoul,SL
+Korea South,koreasouth,Seoul,SL
+Japan East,japaneast,Tokyo,TY
+Japan West,japanwest,Osaka,OS
+Australia Central,australiacentral,Canberra2,CA
+Australia Central 2,australiacentral2,Canberra2,CA
+Australia East,australiaeast,Sydney,SY
+Australia Southeast,australiasoutheast,Melbourne,ME
+UAE North,uaenorth,Dubai2,DX
