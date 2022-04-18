@@ -1,12 +1,11 @@
 # Network Edge Device Redundant Connection Example
 
-This example demonstrates usage of the Equinix Connection module to establish a redundant Equinix Fabric L2 Connection from two Equinix Network Edge devices to Azure ExpressRoute. It will:
+This example demonstrates usage of the Equinix Connection Azure module to establish a redundant Equinix Fabric L2 Connection from two Equinix Network Edge devices to Azure ExpressRoute. It will:
 
 - Create resource group with specified name and region.
 - Create ExpressRoute circuit.
 - Create Equinix Fabric l2 connection for Microsoft Azure service profile with 200Mbps bandwidth and private peering.
-- Create Equinix Fabric l2 connection with 200 Mbps bandwidth
-- Configure BGP session between the Microsoft Azure cloud routers and your Network Edge devices
+- Configure BGP session between the Microsoft Azure cloud routers and your Network Edge devices.
 
 ## Usage
 

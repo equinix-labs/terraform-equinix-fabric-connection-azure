@@ -1,6 +1,6 @@
 # Fabric Port Redundant Connection Example
 
-This example demonstrates a simple usage of the Equinix Connection module to establish a redundant Equinix Fabric L2 Connection from two Equinix Fabric ports to Azure ExpressRoute. It will:
+This example demonstrates a simple usage of the Equinix Connection Azure module to establish a redundant Equinix Fabric L2 Connection from two Equinix Fabric ports to Azure ExpressRoute. It will:
 
 - Create resource group with auto-generated name and specified region.
 - Create ExpressRoute circuit.

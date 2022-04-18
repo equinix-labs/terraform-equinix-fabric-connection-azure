@@ -333,7 +333,7 @@ variable "redundancy_type" {
   default     = "REDUNDANT"
 
   validation {
-    condition     = (contains(["SINGLE", "REDUNDANT"], var.redundancy_type))
+    condition     = contains(["SINGLE", "REDUNDANT"], var.redundancy_type)
     error_message = "Valid values for 'redundancy_type' are (SINGLE, REDUNDANT)."
   } 
 }

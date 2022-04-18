@@ -35,22 +35,22 @@ output "fabric_connection_primary_seller_metro" {
 
 output "fabric_connection_secondary_uuid" {
   description = "Unique identifier of the secondary connection."
-  value       = module.equinix-fabric-connection.secondary_connection.uuid
+  value       = var.redundancy_type == "REDUNDANT" ? module.equinix-fabric-connection.secondary_connection.uuid : null
 }
 
 output "fabric_connection_secondary_name" {
   description = "Name of the secondary connection."
-  value       = module.equinix-fabric-connection.secondary_connection.name
+  value       = var.redundancy_type == "REDUNDANT" ? module.equinix-fabric-connection.secondary_connection.name : null
 }
 
 output "fabric_connection_secondary_status" {
   description = "Secondary connection provisioning status."
-  value       = module.equinix-fabric-connection.secondary_connection.status
+  value       = var.redundancy_type == "REDUNDANT" ? module.equinix-fabric-connection.secondary_connection.status : null
 }
 
 output "fabric_connection_secondary_provider_status" {
   description = "Secondary connection provisioning provider status."
-  value       = module.equinix-fabric-connection.secondary_connection.provider_status
+  value       = var.redundancy_type == "REDUNDANT" ? module.equinix-fabric-connection.secondary_connection.provider_status : null
 }
 
 output "azure_resource_group_name" {

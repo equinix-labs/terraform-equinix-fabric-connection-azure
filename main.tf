@@ -79,7 +79,8 @@ resource "azurerm_express_route_circuit_peering" "this" {
 }
 
 module "equinix-fabric-connection" {
-  source = "github.com/equinix-labs/terraform-equinix-fabric-connection"
+  source = "equinix-labs/fabric-connection/equinix"
+  version = "0.1.1"
 
   # required variables
   notification_users = var.fabric_notification_users
