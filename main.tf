@@ -21,13 +21,13 @@ locals {
 }
 
 data "azurerm_resource_group" "this" {
-  count = var.az_create_resource_group? 0 : 1
+  count = var.az_create_resource_group ? 0 : 1
 
   name = local.az_resource_group_name
 }
 
 resource "azurerm_resource_group" "this" {
-  count = var.az_create_resource_group? 1 : 0
+  count = var.az_create_resource_group ? 1 : 0
 
   name     = local.az_resource_group_name
   location = var.az_region
@@ -80,7 +80,7 @@ resource "azurerm_express_route_circuit_peering" "this" {
 
 module "equinix-fabric-connection" {
   source = "equinix-labs/fabric-connection/equinix"
-  version = "0.1.1"
+  version = "0.3.1"
 
   # required variables
   notification_users = var.fabric_notification_users
@@ -94,7 +94,7 @@ module "equinix-fabric-connection" {
   service_token_id          = var.fabric_service_token_id
   speed                     = var.fabric_speed
   speed_unit                = "MB"
-  purcharse_order_number    = var.fabric_purcharse_order_number
+  purchase_order_number     = var.fabric_purchase_order_number
 
   seller_profile_name      = "Azure ExpressRoute"
   seller_metro_code        = local.fabric_seller_metro_code
