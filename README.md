@@ -38,8 +38,15 @@ To use this module in a new project, create a file such as:
 
 ```hcl
 # main.tf
-provider "equinix" {}
 
+# Configure the Equinix Provider
+# Please refer to provider documentation for details on supported authentication methods and parameters.
+# https://registry.terraform.io/providers/equinix/equinix/latest/docs
+provider "equinix" {
+}
+
+# Configure the Microsoft Azure Provider
+# https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs#authenticating-to-azure
 provider "azurerm" {
   features {}
 }
@@ -91,4 +98,5 @@ See <https://registry.terraform.io/modules/equinix-labs/fabric-connection-azure/
 
 - [Fabric Port redundant connection](https://registry.terraform.io/modules/equinix-labs/fabric-connection-azure/equinix/latest/examples/fabric-port-redundant-connection/)
 - [Network Edge device redundant connection](https://registry.terraform.io/modules/equinix-labs/fabric-connection-azure/equinix/latest/examples/network-edge-device-redundant-connection/)
-- [Fabric a-side Service Token redundant connection](https://registry.terraform.io/modules/equinix-labs/fabric-connection-azure/equinix/latest/examples/service-token-redundant-connection)
+- [Service Token (a-side) redundant connection](https://registry.terraform.io/modules/equinix-labs/fabric-connection-azure/equinix/latest/examples/service-token-redundant-connection)
+- [Service Token (a-side) Equinix Metal to Azure redundant connection End-to-End Solution](https://registry.terraform.io/modules/equinix-labs/fabric-connection-azure/equinix/latest/examples/service-token-metal-to-azure-connection/)
