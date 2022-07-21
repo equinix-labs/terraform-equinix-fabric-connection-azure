@@ -46,8 +46,7 @@ resource "equinix_metal_connection" "this" {
 
 ## Configure the Equinix Fabric connection from Equinix Metal to Azure using the metal connection service token
 module "equinix-fabric-connection-azure" {
-  # source = "equinix-labs/fabric-connection-azure/equinix"
-  source = "../../"
+  source = "equinix-labs/fabric-connection-azure/equinix"
   
   fabric_notification_users         = var.fabric_notification_users
   fabric_connection_name            = local.connection_name
