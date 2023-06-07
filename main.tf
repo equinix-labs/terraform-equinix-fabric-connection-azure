@@ -80,7 +80,7 @@ resource "azurerm_express_route_circuit_peering" "this" {
 
 module "equinix-fabric-connection" {
   source = "equinix-labs/fabric-connection/equinix"
-  version = "0.3.1"
+  version = "0.4.0"
 
   # required variables
   notification_users = var.fabric_notification_users
